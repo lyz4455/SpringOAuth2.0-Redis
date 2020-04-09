@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @SpringBootApplication
 @RestController
-@EnableGlobalMethodSecurity(prePostEnabled = true)//开启注解
+//@EnableGlobalMethodSecurity(prePostEnabled = true)//开启注解
 public class ResourceApplication {
 
     public static void main(String[] args) {

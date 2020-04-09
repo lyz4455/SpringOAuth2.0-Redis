@@ -2,9 +2,11 @@ package com.lyman.authorization.server;
 
 import com.lyman.authorization.properties.OAuth2ClientProperties;
 import com.lyman.authorization.properties.OAuth2Properties;
+import com.lyman.authorization.security.MyUserDetailsService;
 import org.apache.commons.lang.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -17,6 +19,7 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
+import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 
 /**
  * Created by lyz4455 on 2020/4/2.
@@ -32,16 +35,10 @@ public class RezenAuthorizationServerConfig extends AuthorizationServerConfigure
     private AuthenticationManager authenticationManager;
 
     @Autowired
-    private UserDetailsService userDetailsService;
+    private MyUserDetailsService userDetailsService;
 
     @Autowired
-    private TokenStore tokenStore;
-
-    @Autowired(required = false)
-    private JwtAccessTokenConverter jwtAccessTokenConverter;
-
-    @Autowired(required = false)
-    private TokenEnhancer tokenEnhancer;
+    private RedisConnectionFactory redisConnectionFactory;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -53,7 +50,7 @@ public class RezenAuthorizationServerConfig extends AuthorizationServerConfigure
      */
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-        endpoints.tokenStore(tokenStore)
+        endpoints.tokenStore(new RedisTokenStore(redisConnectionFactory))
                 .authenticationManager(authenticationManager)
                 .userDetailsService(userDetailsService);
     }
@@ -68,6 +65,7 @@ public class RezenAuthorizationServerConfig extends AuthorizationServerConfigure
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
 
         InMemoryClientDetailsServiceBuilder build = clients.inMemory();
+        // oAuth2Properties.getClients()获取client列表
         if (ArrayUtils.isNotEmpty(oAuth2Properties.getClients())) {
             for (OAuth2ClientProperties config : oAuth2Properties.getClients()) {
                 String item = config.getClientId();
@@ -76,7 +74,7 @@ public class RezenAuthorizationServerConfig extends AuthorizationServerConfigure
                             .secret(passwordEncoder.encode(config.getClientSecret()))
                             .accessTokenValiditySeconds(-1)
                             .refreshTokenValiditySeconds(-1)
-                            //OAuth2支持的验证模式
+                            // OAuth2支持的验证模式
                             .authorizedGrantTypes("refresh_token", "password")
                             .scopes("all");
                 }else{
@@ -84,7 +82,7 @@ public class RezenAuthorizationServerConfig extends AuthorizationServerConfigure
                             .secret(passwordEncoder.encode(config.getClientSecret()))
                             .accessTokenValiditySeconds(config.getAccessTokenValiditySeconds())
                             .refreshTokenValiditySeconds(60 * 60 * 24 * 15)
-                            //OAuth2支持的验证模式
+                            // OAuth2支持的验证模式
                             .authorizedGrantTypes("refresh_token", "password")
                             .scopes("all");
                 }

@@ -1,4 +1,4 @@
-# SpringOAuth2.0-Redis-
+# SpringOAuth2.0-Redis持久化token
 Redis持久化+永久Token和短期Token+注册id和idSecret
 本项目主要针对的是OAuth认证中的密码式认证 
 关于OAuth2.0可参考下面的文档：OAuth 2.0.note

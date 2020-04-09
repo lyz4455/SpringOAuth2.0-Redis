@@ -18,8 +18,7 @@ logging:
 ctrip:
   security:
     oauth2:
-      storeType: redis #或者jwt
-#      jwtSigningKey: merryyou
+#      storeType: redis #或者jwt
       clients[0]:
         clientId: ctrip
         clientSecret: rezen
