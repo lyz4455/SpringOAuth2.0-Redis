@@ -19,6 +19,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.HashMap;
 
 /**
@@ -89,16 +91,13 @@ public class AppLoginInSuccessHandler extends SavedRequestAwareAuthenticationSuc
      * @throws IOException
      */
     private String[] extractAndDecodeHeader(String header, HttpServletRequest request) throws IOException {
-        byte[] base64Token = header.substring(6).getBytes("UTF-8");
 
-        byte[] decoded;
+        String token ="";
         try {
-            decoded = Base64.decode(base64Token);
+            token = URLDecoder.decode(header.substring(6), "UTF-8");
         } catch (IllegalArgumentException var7) {
             throw new BadCredentialsException("Failed to decode basic authentication token");
         }
-
-        String token = new String(decoded, "UTF-8");
         int delim = token.indexOf(":");
         if (delim == -1) {
             throw new BadCredentialsException("Invalid basic authentication token");
