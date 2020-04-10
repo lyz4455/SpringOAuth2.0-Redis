@@ -25,7 +25,7 @@ import org.springframework.security.oauth2.provider.token.store.redis.RedisToken
  * Created by lyz4455 on 2020/4/2.
  */
 @Configuration
-@EnableAuthorizationServer
+@EnableAuthorizationServer   //认证服务器注解
 public class RezenAuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
     @Autowired

@@ -11,7 +11,7 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
  * Created by lyz4455 on 2020/4/2.
  */
 @Configuration
-@EnableResourceServer
+@EnableResourceServer //资源服务器注解
 public class RezenResourceServerConfig extends ResourceServerConfigurerAdapter {
 
     /**

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
  * Created by lyz4455 on 2020/4/2.
  */
 @RestController
-@PreAuthorize("hasRole('ROLE_USER')")
+//@PreAuthorize("hasRole('ROLE_USER')")
 public class TestController {
 
     @GetMapping("/product/{id}")
