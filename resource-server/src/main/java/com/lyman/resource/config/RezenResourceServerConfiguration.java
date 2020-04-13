@@ -18,7 +18,6 @@ public class RezenResourceServerConfiguration extends ResourceServerConfigurerAd
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.csrf().disable().authorizeRequests().antMatchers("/**")
-//                .authenticated().antMatchers(HttpMethod.GET, "/api")
                 // 拦截用户，必须具有所列权限
                 .hasAuthority("ROLE_USER");
     }

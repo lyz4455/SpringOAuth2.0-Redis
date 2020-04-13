@@ -18,13 +18,12 @@ logging:
 ctrip:
   security:
     oauth2:
-#      storeType: redis #或者jwt
       clients[0]:
         clientId: ctrip
         clientSecret: rezen
       clients[1]:
-              clientId: merryyou
-              clientSecret: merryyou
-      clients[2]:
         clientId: test1
         clientSecret: test1
+      clients[2]:
+        clientId: test2
+        clientSecret: test2

@@ -21,6 +21,7 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 
+
 /**
  * Created by lyz4455 on 2020/4/2.
  */
@@ -80,7 +81,7 @@ public class RezenAuthorizationServerConfig extends AuthorizationServerConfigure
                 }else{
                     build.withClient(config.getClientId())
                             .secret(passwordEncoder.encode(config.getClientSecret()))
-                            .accessTokenValiditySeconds(config.getAccessTokenValiditySeconds())
+                            .accessTokenValiditySeconds(120)
                             .refreshTokenValiditySeconds(60 * 60 * 24 * 15)
                             // OAuth2支持的验证模式
                             .authorizedGrantTypes("refresh_token", "password")
